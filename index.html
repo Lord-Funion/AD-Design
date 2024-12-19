@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AD</title>
+    <title>Funyuns Walkie Talkies</title>
     <style>
         body {
             margin: 0;
@@ -24,53 +24,50 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        // Variables
         const message = "Funyuns";
         const lol = "Ingredients: Monosodium Glutamate, Maltodextrin, TBHQ, Windex, Clorox";
 
-        // Main draw function
-        function draw() {
-            // Clear the canvas
+        function draw(mouseX, mouseY) {
+            // Clear the canvas (prevents trails)
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw background
             ctx.fillStyle = 'rgb(255, 25, 255)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Draw title text
+            // Draw rectangle
+            ctx.fillStyle = 'rgb(247, 255, 0)';
+            ctx.fillRect(mouseX, mouseY, 100, 122);
+
+            // Draw ellipse
+            ctx.fillStyle = 'rgb(0, 255, 0)';
+            ctx.beginPath();
+            ctx.ellipse(mouseX + 50, mouseY + 57, 25, 25, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Draw message
             ctx.fillStyle = 'black';
             ctx.font = '30px Arial';
-            ctx.fillText("FUNYUN WALKIE TALKIES!", 9, 43);
+            ctx.fillText("FUNYUN WALKIE TALKIES!", 10, 40);
 
-            // Draw rectangle following the mouse
-            canvas.onmousemove = (event) => {
-                const mouseX = event.clientX;
-                const mouseY = event.clientY;
+            ctx.font = '22px Arial';
+            ctx.fillText(message, mouseX + 10, mouseY + 20);
 
-                // Yellow rectangle
-                ctx.fillStyle = 'rgb(247, 255, 0)';
-                ctx.fillRect(mouseX, mouseY, 100, 122);
+            ctx.font = '12px Arial';
+            ctx.fillText(lol, mouseX + 10, mouseY + 110);
 
-                // Green circle
-                ctx.fillStyle = 'rgb(0, 255, 0)';
-                ctx.beginPath();
-                ctx.arc(mouseX + 50, mouseY + 57, 25, 0, 2 * Math.PI);
-                ctx.fill();
-
-                // Black "antenna"
-                ctx.fillStyle = 'black';
-                ctx.fillRect(mouseX, mouseY, 5, -62);
-
-                // Draw message text
-                ctx.fillStyle = 'black';
-                ctx.font = '22px Arial';
-                ctx.fillText(message, mouseX + 10, mouseY + 20);
-
-                // Draw ingredients text
-                ctx.font = '10px Arial';
-                ctx.fillText(lol, mouseX + 10, mouseY + 110);
-            };
+            // Draw line
+            ctx.fillStyle = 'black';
+            ctx.fillRect(mouseX, mouseY, 5, -62);
         }
 
-        // Initialize draw
-        draw();
+        // Mouse movement event
+        canvas.addEventListener('mousemove', (event) => {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+            draw(mouseX, mouseY);
+        });
     </script>
 </body>
 </html>
